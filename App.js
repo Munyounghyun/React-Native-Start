@@ -7,24 +7,34 @@ export default function App() {
   const [goal, setGoal] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
+  //아이템 더하기
   const addGoalHandler = (text) => {
     setGoal((currentGoal) => [...currentGoal, text]);
+    endModalHandler();
   };
 
+  //아이템 삭제
   const deleteGoalHandler = (indexToDelete) => {
     setGoal((currentGoals) => {
       return currentGoals.filter((_, idx) => idx !== indexToDelete);
     });
   };
 
+  //모달 열기
   const modalHandler = () => {
     setModalVisible(true);
+  };
+  //모달 닫기
+  const endModalHandler = () => {
+    setModalVisible(false);
   };
 
   return (
     <View style={styles.appContainer}>
       <Button title="Add New Goal" color="#5e0acc" onPress={modalHandler} />
-      {modalVisible && <GoalInput onAddGoal={addGoalHandler} />}
+      {modalVisible && (
+        <GoalInput onAddGoal={addGoalHandler} onCancel={endModalHandler} />
+      )}
       <View style={styles.goalsContainer}>
         <FlatList
           data={goal}
